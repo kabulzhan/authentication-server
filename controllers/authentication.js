@@ -9,13 +9,19 @@ function tokenForUser(user) {
 
 exports.signin = function (req, res, next) {
   // User has already had their email and password auth'd
-  // We just need to give them a token
-  res.send({ token: tokenForUser(req.user) });
+  // We just need to give them a token and the name
+  res.send({
+    token: tokenForUser(req.user),
+    name: req.user.name,
+    email: req.user.email,
+  });
 };
 
 exports.signup = function (req, res, next) {
+  const name = req.body.name;
   const email = req.body.email;
   const password = req.body.password;
+
   // See if a user with the given email exists
   User.findOne({ email: email }, function (err, existingUser) {
     if (err) {
@@ -27,6 +33,7 @@ exports.signup = function (req, res, next) {
     }
     // If a user with email does NOT exist, create and save user record
     const user = new User({
+      name: name,
       email: email,
       password: password,
     });
@@ -35,7 +42,11 @@ exports.signup = function (req, res, next) {
       if (err) {
         return next(err);
       }
-      res.json({ token: tokenForUser(user) });
+      res.json({
+        token: tokenForUser(user),
+        name: user.name,
+        email: user.email,
+      });
     });
     // Respond to request indicating the user was created
   });

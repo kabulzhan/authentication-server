@@ -1,4 +1,5 @@
 const Authentication = require("./controllers/authentication");
+const NewsControl = require("./controllers/newsControl");
 const passportService = require("./services/passport");
 const passport = require("passport");
 
@@ -15,7 +16,10 @@ module.exports = function (app) {
 
   app.post("/signin", requireSignin, Authentication.signin);
   app.post("/signup", Authentication.signup);
-  app.post("/news", requireAuth, function (req, res, nex) {
-    res.send({ post: "submitted" });
-  });
+
+  app.get("/news", NewsControl.getApprovedNews);
+  app.post("/news", requireAuth, NewsControl.newsPost);
+  app.get("/news/unapproved", requireAuth, NewsControl.getUnapprovedNews);
+  app.post("/news/unapproved", requireAuth, NewsControl.approveNews);
+  app.get("/news/mynews", requireAuth, NewsControl.getMyNews);
 };

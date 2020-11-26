@@ -14,6 +14,7 @@ exports.signin = function (req, res, next) {
     token: tokenForUser(req.user),
     name: req.user.name,
     email: req.user.email,
+    admin: req.user.admin,
   });
 };
 
@@ -36,6 +37,7 @@ exports.signup = function (req, res, next) {
       name: name,
       email: email,
       password: password,
+      admin: false,
     });
 
     user.save(function (err) {
@@ -46,6 +48,7 @@ exports.signup = function (req, res, next) {
         token: tokenForUser(user),
         name: user.name,
         email: user.email,
+        admin: user.admin,
       });
     });
     // Respond to request indicating the user was created

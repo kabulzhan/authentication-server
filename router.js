@@ -15,4 +15,7 @@ module.exports = function (app) {
 
   app.post("/signin", requireSignin, Authentication.signin);
   app.post("/signup", Authentication.signup);
+  app.post("/news", requireAuth, function (req, res, nex) {
+    res.send({ post: "submitted" });
+  });
 };

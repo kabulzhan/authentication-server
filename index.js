@@ -16,10 +16,15 @@ mongoose.connect(
   { useNewUrlParser: true, useUnifiedTopology: true }
 );
 
+var corsOptions = {
+  origin: "https://news-carcass.herokuapp.com/",
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+
 // App Setup
-app.options("*", cors());
+app.options("*", cors(corsOptions));
 app.use(morgan("combined"));
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(bodyParser.json({ type: "*/*" }));
 router(app);
 

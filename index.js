@@ -20,6 +20,7 @@ mongoose.connect(
 app.use(morgan("combined"));
 app.use(cors());
 app.use(bodyParser.json({ type: "*/*" }));
+app.options("/news/unapproved", cors());
 router(app);
 
 // Server setup

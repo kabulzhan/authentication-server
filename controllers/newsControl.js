@@ -34,9 +34,18 @@ exports.approveNews = function (req, res, next) {
       { approved: true },
       function (err, doc) {
         if (err) return next(err);
-        else return res.json(doc);
+        else res.redirect("/news/unapproved");
       }
     );
+  } else return res.send("Phony attempt");
+};
+
+exports.deleteNews = function (req, res, next) {
+  if (req.user.admin) {
+    News.findByIdAndDelete(req.body.id, function (err) {
+      if (err) return next(err);
+      else res.redirect("/news/unapproved");
+    });
   } else return res.send("Phony attempt");
 };
 

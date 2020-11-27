@@ -21,5 +21,6 @@ module.exports = function (app) {
   app.post("/news", requireAuth, NewsControl.newsPost);
   app.get("/news/unapproved", requireAuth, NewsControl.getUnapprovedNews);
   app.post("/news/unapproved", requireAuth, NewsControl.approveNews);
+  app.delete("/news/unapproved", requireAuth, NewsControl.deleteNews);
   app.get("/news/mynews", requireAuth, NewsControl.getMyNews);
 };

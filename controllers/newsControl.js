@@ -45,7 +45,10 @@ exports.deleteNews = function (req, res, next) {
     News.findByIdAndDelete(req.body.id, function (err) {
       if (err) return next(err);
       else {
-        res.redirect("/news/unapproved");
+        News.find({ approved: false }, function (err, docs) {
+          if (err) return next(err);
+          res.json(docs);
+        });
       }
     });
   } else return res.send("Phony attempt");

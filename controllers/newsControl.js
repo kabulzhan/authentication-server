@@ -44,7 +44,13 @@ exports.deleteNews = function (req, res, next) {
   if (req.user.admin) {
     News.findByIdAndDelete(req.body.id, function (err) {
       if (err) return next(err);
-      else res.redirect("/news/unapproved");
+      else {
+        res.set(
+          "Access-Control-Allow-Origin",
+          "https://news-carcass.herokuapp.com/"
+        );
+        res.redirect("/news/unapproved");
+      }
     });
   } else return res.send("Phony attempt");
 };
